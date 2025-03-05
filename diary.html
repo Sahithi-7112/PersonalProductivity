@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary</title>
+    <style>
+       
+        body {
+        background-image: url("{{ url_for('static', filename='dairyimg.jpg') }}");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        h1 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            background: #111111;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #080808;
+        }
+
+
+        .entries-container {
+            margin-top: 20px;
+        }
+
+        .entry {
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: left;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>My Diary</h1>
+
+        <form method="POST">
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="content" placeholder="Write your diary entry..." required></textarea>
+            <button type="submit">Save Entry</button>
+        </form>
+
+        <form method="POST">
+            <input type="hidden" name="show_entries" value="{{ 'no' if show_entries else 'yes' }}">
+            <button type="submit">{{ 'Hide Previous Entries' if show_entries else 'Show Previous Entries' }}</button>
+        </form>
+
+        {% if show_entries %}
+            <div class="entries-container">
+                {% for entry in entries %}
+                    <div class="entry">
+                        <h3>{{ entry[1] }}</h3>
+                        <p>{{ entry[2] }}</p>
+                        <small><i>{{ entry[3] }}</i></small>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
